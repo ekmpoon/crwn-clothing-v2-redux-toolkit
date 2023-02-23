@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Routes, Route } from 'react-router-dom';
 
@@ -22,8 +22,11 @@ const App = () => {
       if (user) {
         createUserDocumentFromAuth(user);
       }
-      console.log(setCurrentUser(user));
-      dispatch(setCurrentUser(user));
+      const pickedUser =
+        user && (({ accessToken, email }) => ({ accessToken, email }))(user);
+
+      console.log(setCurrentUser(pickedUser));
+      dispatch(setCurrentUser(pickedUser));
     });
 
     return unsubscribe;
